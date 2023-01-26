@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DirectoryMerge")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Directory Merge")]
+[assembly: AssemblyDescription("Merges the contents of two directories")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Razer")]
-[assembly: AssemblyProduct("DirectoryMerge")]
-[assembly: AssemblyCopyright("Copyright © Razer 2023")]
+[assembly: AssemblyCompany("Carson Miller Inc.")]
+[assembly: AssemblyProduct("Directory Merge")]
+[assembly: AssemblyCopyright("Carson Miller 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
