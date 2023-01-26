@@ -67,6 +67,12 @@ namespace DirectoryMerge
 
 		private void UpdateTreeView(string rootDirFullPath)
 		{
+			if (!Directory.Exists(rootDirFullPath)) 
+			{
+				MessageBox.Show("Directory does not exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			treeDir.Nodes.Clear();
 			treeDir.Nodes.Add(GenerateNodes(rootDirFullPath));
 		}
