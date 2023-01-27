@@ -49,7 +49,7 @@ namespace DirectoryMerge
 				CopyDirectory(dirViewRight.SelectedDir, dirViewLeft.SelectedDir, cbCopySubDirs.Checked);
 			}
 
-			MessageBox.Show("Merge Complete", "Merge Complete", MessageBoxButtons.OK);
+			MessageBox.Show("Merge Complete!", "Merge Complete", MessageBoxButtons.OK);
 
 			dirViewLeft.RefreshTree();
 			dirViewRight.RefreshTree();

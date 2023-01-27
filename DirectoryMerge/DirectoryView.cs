@@ -23,10 +23,6 @@ namespace DirectoryMerge
 			{
 				tbPath.Text = value;
 				tbPath.Text = value;
-				if (Directory.Exists(value))
-				{
-					UpdateTreeView(value);
-				}
 			}
 		}
 
@@ -41,6 +37,8 @@ namespace DirectoryMerge
 				lblTitle.Text = value;
 			}
 		}
+
+		private bool isNodeDoubleClick = false;
 
 		public DirectoryView()
 		{
@@ -69,7 +67,8 @@ namespace DirectoryMerge
 		{
 			if (!Directory.Exists(rootDirFullPath)) 
 			{
-				MessageBox.Show("Directory does not exist", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string message = $"Directory does not exist:\n\n{rootDirFullPath}";
+				MessageBox.Show(message, "Directory does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -81,23 +80,33 @@ namespace DirectoryMerge
 		/// Generates a tree of all of the contents of the directory
 		/// </summary>
 		/// <returns>A tree node which represents the selected dir</returns>
-		private TreeNode GenerateNodes(string fullPath)
+		private TreeNode GenerateNodes(string dirFullPath)
 		{
 			var newNode = new TreeNode();
-			newNode.Text = new DirectoryInfo(fullPath).Name;
-			newNode.ToolTipText = fullPath;
-			newNode.Tag = fullPath;
+			if (!Directory.Exists(dirFullPath))
+			{
+				return null;
+			}
+			newNode.Text = new DirectoryInfo(dirFullPath).Name;
+			newNode.ToolTipText = dirFullPath;
+			newNode.Tag = dirFullPath;
 
-			var files = Directory.EnumerateFiles(fullPath);
-			var subDirs = Directory.EnumerateDirectories(fullPath);
+			var files = Directory.EnumerateFiles(dirFullPath);
+			var subDirs = Directory.EnumerateDirectories(dirFullPath);
 
 			foreach (var subDir in subDirs)
 			{
-				newNode.Nodes.Add(GenerateNodes(subDir));
+				var newChildNode = GenerateNodes(subDir);
+				if (newChildNode != null)
+				{
+					newNode.Nodes.Add(newChildNode);
+				}
 			}
 
 			foreach (var file in files)
 			{
+				if (!File.Exists(file)) continue;
+
 				var newFileNode = new TreeNode(new FileInfo(file).Name);
 				newFileNode.ToolTipText = file;
 				newFileNode.Tag = file;
@@ -109,7 +118,22 @@ namespace DirectoryMerge
 
 		private void btnOpenExplorer_Click(object sender, EventArgs e)
 		{
-			Process.Start("explorer.exe", SelectedDir);
+			if (!Directory.Exists(SelectedDir))
+			{
+				string message = $"Directory does not exist:\n\n{SelectedDir}";
+				MessageBox.Show(message, "Directory does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
+			try
+			{
+				Process.Start("explorer.exe", SelectedDir);
+			}
+			catch (Exception ex)
+			{
+				string message = $"Unable to open directory:\n\n{SelectedDir}\n\n{ex.Message}";
+				MessageBox.Show(message, "Failed to open directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		private void btnExpandAll_Click(object sender, EventArgs e)
@@ -158,22 +182,80 @@ namespace DirectoryMerge
 
 		private void treeDir_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
-			string path = (string)e.Node.Tag;
+			OpenNode(e.Node);
+		}
+
+		private void btnOpenNode_Click(object sender, EventArgs e)
+		{
+			if (treeDir.SelectedNode != null)
+			{
+				OpenNode(treeDir.SelectedNode);
+			}
+		}
+
+		private void OpenNode(TreeNode node)
+		{
+			string path = (string)node.Tag;
 			if (Directory.Exists(path))
 			{
-				Process.Start("explorer.exe", path);
+				try
+				{
+					Process.Start("explorer.exe", path);
+				}
+				catch (Exception ex)
+				{
+					string message = $"Unable to open directory:\n\n{path}\n\n{ex.Message}";
+					MessageBox.Show(message, "Failed to open directory", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 				return;
 			}
 
 			if (File.Exists(path))
 			{
-				Process.Start(path);
+				try
+				{
+					Process.Start(path);
+				}
+				catch (Exception ex)
+				{
+					string message = $"Unable to open file:\n\n{path}\n\n{ex.Message}";
+					MessageBox.Show(message, "Failed to open file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 
 		private void btnRefresh_Click(object sender, EventArgs e)
 		{
 			UpdateTreeView(SelectedDir);
+		}
+
+		private void treeDir_MouseDown(object sender, MouseEventArgs e)
+		{
+			isNodeDoubleClick = e.Clicks == 2;
+		}
+
+		private void treeDir_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+		{
+			if (isNodeDoubleClick && e.Action == TreeViewAction.Expand)
+				e.Cancel = true;
+		}
+
+		private void treeDir_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+		{
+			if (isNodeDoubleClick && e.Action == TreeViewAction.Collapse)
+				e.Cancel = true;
+		}
+
+		private void btnUpDirLevel_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				SelectedDir = new DirectoryInfo(SelectedDir).Parent.FullName;
+			}
+			catch
+			{
+				//do nothing
+			}
 		}
 	}
 }

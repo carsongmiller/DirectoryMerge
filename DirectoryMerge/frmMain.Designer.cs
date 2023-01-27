@@ -32,12 +32,12 @@
 			this.folderBrowserDialog_Output = new System.Windows.Forms.FolderBrowserDialog();
 			this.folderBrowserDialog_Add = new System.Windows.Forms.FolderBrowserDialog();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.dirViewLeft = new DirectoryMerge.DirectoryView();
-			this.dirViewRight = new DirectoryMerge.DirectoryView();
 			this.btnStartMerge = new System.Windows.Forms.Button();
 			this.cbCopyLeftToRight = new System.Windows.Forms.CheckBox();
 			this.cbCopyRightToLeft = new System.Windows.Forms.CheckBox();
 			this.cbCopySubDirs = new System.Windows.Forms.CheckBox();
+			this.dirViewLeft = new DirectoryMerge.DirectoryView();
+			this.dirViewRight = new DirectoryMerge.DirectoryView();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -60,31 +60,9 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.dirViewRight);
-			this.splitContainer1.Size = new System.Drawing.Size(996, 451);
-			this.splitContainer1.SplitterDistance = 499;
+			this.splitContainer1.Size = new System.Drawing.Size(1086, 451);
+			this.splitContainer1.SplitterDistance = 544;
 			this.splitContainer1.TabIndex = 2;
-			// 
-			// dirViewLeft
-			// 
-			this.dirViewLeft.Cursor = System.Windows.Forms.Cursors.Default;
-			this.dirViewLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dirViewLeft.Location = new System.Drawing.Point(0, 0);
-			this.dirViewLeft.Name = "dirViewLeft";
-			this.dirViewLeft.SelectedDir = "";
-			this.dirViewLeft.Size = new System.Drawing.Size(499, 451);
-			this.dirViewLeft.TabIndex = 0;
-			this.dirViewLeft.Title = "Left";
-			// 
-			// dirViewRight
-			// 
-			this.dirViewRight.Cursor = System.Windows.Forms.Cursors.Default;
-			this.dirViewRight.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dirViewRight.Location = new System.Drawing.Point(0, 0);
-			this.dirViewRight.Name = "dirViewRight";
-			this.dirViewRight.SelectedDir = "";
-			this.dirViewRight.Size = new System.Drawing.Size(493, 451);
-			this.dirViewRight.TabIndex = 1;
-			this.dirViewRight.Title = "Right";
 			// 
 			// btnStartMerge
 			// 
@@ -136,11 +114,33 @@
 			this.cbCopySubDirs.Text = "Copy Sub-Directories";
 			this.cbCopySubDirs.UseVisualStyleBackColor = true;
 			// 
+			// dirViewLeft
+			// 
+			this.dirViewLeft.Cursor = System.Windows.Forms.Cursors.Default;
+			this.dirViewLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dirViewLeft.Location = new System.Drawing.Point(0, 0);
+			this.dirViewLeft.Name = "dirViewLeft";
+			this.dirViewLeft.SelectedDir = "";
+			this.dirViewLeft.Size = new System.Drawing.Size(544, 451);
+			this.dirViewLeft.TabIndex = 0;
+			this.dirViewLeft.Title = "Left";
+			// 
+			// dirViewRight
+			// 
+			this.dirViewRight.Cursor = System.Windows.Forms.Cursors.Default;
+			this.dirViewRight.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dirViewRight.Location = new System.Drawing.Point(0, 0);
+			this.dirViewRight.Name = "dirViewRight";
+			this.dirViewRight.SelectedDir = "";
+			this.dirViewRight.Size = new System.Drawing.Size(538, 451);
+			this.dirViewRight.TabIndex = 1;
+			this.dirViewRight.Title = "Right";
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1020, 573);
+			this.ClientSize = new System.Drawing.Size(1110, 573);
 			this.Controls.Add(this.cbCopySubDirs);
 			this.Controls.Add(this.cbCopyRightToLeft);
 			this.Controls.Add(this.cbCopyLeftToRight);
